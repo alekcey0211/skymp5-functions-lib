@@ -10,7 +10,9 @@ import * as objectReference from './src/papyrus/objectReference';
 import * as utility from './src/papyrus/utility';
 import * as game from './src/papyrus/game';
 import * as form from './src/papyrus/form';
+
 import * as perks from './src/properties/perks';
+import * as avSkill from './src/properties/actorValues/skill';
 import * as evalProp from './src/properties/eval';
 
 import { LocalizationProvider } from './src/utils/localizationProvider';
@@ -29,6 +31,8 @@ const localizationProvider = new LocalizationProvider(
 
 perks.register(mp);
 evalProp.register(mp);
+avSkill.register(mp);
+
 events.register(mp);
 
 form.register(mp);

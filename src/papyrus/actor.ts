@@ -2,7 +2,7 @@ import { evalClient } from '../properties/eval';
 import { Ctx } from '../types/ctx';
 import { Mp, PapyrusObject, PapyrusValue } from '../types/mp';
 import { FunctionInfo } from '../utils/functionInfo';
-import { getBoolean, getNumber, getObject } from '../utils/papyrusArgs';
+import { getBoolean, getNumber, getObject, getString } from '../utils/papyrusArgs';
 
 const getDisplayName = (mp: Mp, self: PapyrusObject): string => {
   const formId = mp.getIdFromDesc(self.desc);
@@ -99,6 +99,26 @@ const getAngleX = (mp: Mp, self: PapyrusObject): number => getAngle(mp, self)[0]
 const getAngleY = (mp: Mp, self: PapyrusObject): number => getAngle(mp, self)[1];
 const getAngleZ = (mp: Mp, self: PapyrusObject): number => getAngle(mp, self)[2];
 
+const setActorValue = (mp: Mp, self: PapyrusObject, args: PapyrusValue[]) => {
+  const selfId = mp.getIdFromDesc(self.desc);
+  const avName = getString(args, 0);
+  const avValue = getNumber(args, 1);
+
+  mp.set(selfId, `av${avName}`, avValue);
+};
+
+const getActorValue = (mp: Mp, self: PapyrusObject, args: PapyrusValue[]) =>
+  mp.get(mp.getIdFromDesc(self.desc), `av${getString(args, 0)}`);
+
+const damageActorValue = (mp: Mp, self: PapyrusObject, args: PapyrusValue[]) => {
+  const selfId = mp.getIdFromDesc(self.desc);
+  const avName = getString(args, 0);
+  const avValue = getNumber(args, 1);
+
+  const currentAvValue = mp.get(selfId, `av${avName}`);
+  mp.set(selfId, `av${avName}`, currentAvValue - avValue);
+};
+
 // TODO: Convert As Perk don't work, user M.AsPerk in papyrus scripts
 export const register = (mp: Mp): void => {
   mp.registerPapyrusFunction('method', 'Actor', 'GetDisplayName', (self) => getDisplayName(mp, self));
@@ -118,4 +138,11 @@ export const register = (mp: Mp): void => {
   mp.registerPapyrusFunction('method', 'Actor', 'GetAngleX', (self) => getAngleX(mp, self));
   mp.registerPapyrusFunction('method', 'Actor', 'GetAngleY', (self) => getAngleY(mp, self));
   mp.registerPapyrusFunction('method', 'Actor', 'GetAngleZ', (self) => getAngleZ(mp, self));
+
+  mp.registerPapyrusFunction('method', 'Actor', 'SetActorValue', (self, args) => setActorValue(mp, self, args));
+  mp.registerPapyrusFunction('method', 'Actor', 'SetAV', (self, args) => setActorValue(mp, self, args));
+  mp.registerPapyrusFunction('method', 'Actor', 'GetActorValue', (self, args) => getActorValue(mp, self, args));
+  mp.registerPapyrusFunction('method', 'Actor', 'GetAV', (self, args) => getActorValue(mp, self, args));
+  mp.registerPapyrusFunction('method', 'Actor', 'DamageActorValue', (self, args) => damageActorValue(mp, self, args));
+  mp.registerPapyrusFunction('method', 'Actor', 'DamageAV', (self, args) => damageActorValue(mp, self, args));
 };
