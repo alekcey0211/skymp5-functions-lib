@@ -41,9 +41,7 @@ export function avUpdateExp(ctx: Ctx<Record<string, number | undefined>, number 
     const avInfo = ctx.sp.ActorValueInfo.getActorValueInfoByName(avName);
     if (!avInfo) return;
 
-    // const prevlvl = ctx.state[`prev${avName}Value`] ?? 15;
     const lvl = ac.getActorValue(avName);
-    // ctx.sp.printConsole(prevlvl, lvl);
     const nextExp = avInfo.getExperienceForLevel(lvl);
     const multiply = nextExp / 100;
     avInfo.setSkillExperience(ctx.value * multiply);

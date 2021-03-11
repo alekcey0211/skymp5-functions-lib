@@ -65,7 +65,6 @@ const asPerk = (mp: Mp, self: null, args: PapyrusValue[]) => {
   return getObject(args, 0);
 };
 
-// TODO: In papyrus 0xff000000 As Int return 0, so i create M.HexToInt
 const hexToInt = (mp: Mp, self: null, args: PapyrusValue[]) => {
   return +getString(args, 0);
 };

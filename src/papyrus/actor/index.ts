@@ -9,7 +9,7 @@ import {
   setAngle,
   setPosition,
 } from './position';
-import { setActorValue, getActorValue, damageActorValue, restoreActorValue, addSkillExperience } from './value';
+import { setActorValue, getActorValue, damageActorValue, restoreActorValue } from './value';
 import { addPerk, removePerk, hasPerk } from './perk';
 import { isEquipped, equipItem, equipItemEx, unequipItem, unequipItemEx, unequipAll, unequipItemSlot } from './equip';
 
@@ -23,23 +23,6 @@ const getDisplayName = (mp: Mp, self: PapyrusObject): string => {
   return '';
 };
 
-// TODO: this code crash skyrim
-// const playIdle = (mp: Mp, self: PapyrusObject, args: PapyrusValue[]) => {
-//   const selfId = mp.getIdFromDesc(self.desc);
-//   const idle = getObject(args, 0);
-//   const idleId = mp.getIdFromDesc(idle.desc);
-
-//   console.log(idleId);
-//   const playIdleFunction = (ctx: Ctx, idleId: number) => {
-//     ctx.sp.once('update', () => {
-//       const form = ctx.sp.Game.getFormEx(idleId);
-//       ctx.sp.Game.getPlayer()?.playIdle(ctx.sp.Idle.from(form));
-//     });
-//   };
-//   evalClient(mp, selfId, new FunctionInfo(playIdleFunction).getText({ idleId }));
-// };
-
-// TODO: Convert As Perk don't work, user M.AsPerk in papyrus scripts
 export const register = (mp: Mp): void => {
   mp.registerPapyrusFunction('method', 'Actor', 'GetDisplayName', (self) => getDisplayName(mp, self));
 
@@ -50,7 +33,6 @@ export const register = (mp: Mp): void => {
   mp.registerPapyrusFunction('method', 'Actor', 'IsEquipped', (self, args) => isEquipped(mp, self, args));
   mp.registerPapyrusFunction('method', 'Actor', 'EquipItem', (self, args) => equipItem(mp, self, args));
   mp.registerPapyrusFunction('method', 'Actor', 'EquipItemEx', (self, args) => equipItemEx(mp, self, args));
-  // mp.registerPapyrusFunction('method', 'Actor', 'EquipItemById', (self, args) => equipItemById(mp, self, args));
   mp.registerPapyrusFunction('method', 'Actor', 'UnequipItem', (self, args) => unequipItem(mp, self, args));
   mp.registerPapyrusFunction('method', 'Actor', 'UnequipItemEx', (self, args) => unequipItemEx(mp, self, args));
   mp.registerPapyrusFunction('method', 'Actor', 'UnequipAll', (self, args) => unequipAll(mp, self, args));
@@ -74,10 +56,4 @@ export const register = (mp: Mp): void => {
   mp.registerPapyrusFunction('method', 'Actor', 'DamageAV', (self, args) => damageActorValue(mp, self, args));
   mp.registerPapyrusFunction('method', 'Actor', 'RestoreActorValue', (self, args) => restoreActorValue(mp, self, args));
   mp.registerPapyrusFunction('method', 'Actor', 'RestoreAV', (self, args) => restoreActorValue(mp, self, args));
-  // mp.registerPapyrusFunction('method', 'Actor', 'PlayIdle', (self, args) => playIdle(mp, self, args));
-
-  // TODO: temp solve, try to use ActorValueInfo
-  mp.registerPapyrusFunction('method', 'Actor', 'AddSkillExperience', (self, args) =>
-    addSkillExperience(mp, self, args)
-  );
 };
