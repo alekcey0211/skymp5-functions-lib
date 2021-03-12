@@ -65,13 +65,13 @@ const asConvert = (mp: Mp, self: null, args: PapyrusValue[]): PapyrusValue => ge
 
 const stringToInt = (mp: Mp, self: null, args: PapyrusValue[]): number => +getString(args, 0);
 
-const browserSetVisible = (mp: Mp, self: null, args: PapyrusValue[]) => {
+const setBrowserVisible = (mp: Mp, self: null, args: PapyrusValue[]) => {
   const ac = getObject(args, 0);
   const visible = getBoolean(args, 1);
   mp.set(mp.getIdFromDesc(ac.desc), 'browserVisible', visible);
 };
 
-const browserSetFocused = (mp: Mp, self: null, args: PapyrusValue[]) => {
+const setBrowserFocused = (mp: Mp, self: null, args: PapyrusValue[]) => {
   const ac = getObject(args, 0);
   const focused = getBoolean(args, 1);
   mp.set(mp.getIdFromDesc(ac.desc), 'browserFocused', focused);
@@ -101,11 +101,11 @@ export const register = (mp: Mp, localization: Localization = localizationDefaul
 
     mp.registerPapyrusFunction('global', className, 'StringToInt', (self, args) => stringToInt(mp, self, args));
 
-    mp.registerPapyrusFunction('global', className, 'BrowserSetVisible', (self, args) =>
-      browserSetVisible(mp, self, args)
+    mp.registerPapyrusFunction('global', className, 'SetBrowserVisible', (self, args) =>
+      setBrowserVisible(mp, self, args)
     );
-    mp.registerPapyrusFunction('global', className, 'BrowserSetFocused', (self, args) =>
-      browserSetFocused(mp, self, args)
+    mp.registerPapyrusFunction('global', className, 'SetBrowserFocused', (self, args) =>
+      setBrowserFocused(mp, self, args)
     );
   }
 };
